@@ -5,3 +5,9 @@ if (buffer.growable) {
 }
 
 const uint8Array = new Uint8Array(buffer);
+
+uint8Array[0] = 2;
+
+Atomics.add(uint8Array, 0, 5);
+
+console.log(Atomics.load(uint8Array, 0));
