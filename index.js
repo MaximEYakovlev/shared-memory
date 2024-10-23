@@ -1,3 +1,11 @@
+const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads');
+
+const createWorker = (sharedBuffer) => {
+    return new Worker(__filename, {
+        workerData: sharedBuffer
+    });
+}
+
 const buffer = new SharedArrayBuffer(8, { maxByteLength: 16 });
 
 if (buffer.growable) {
@@ -11,3 +19,5 @@ uint8Array[0] = 2;
 Atomics.add(uint8Array, 0, 5);
 
 console.log(Atomics.load(uint8Array, 0));
+
+const worker = new Worker('worker.js');
