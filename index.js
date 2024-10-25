@@ -18,13 +18,19 @@ if (isMainThread) {
     const workerOne = createWorker(buffer);
     const workerTwo = createWorker(buffer);
 
-    uint8Array[0] = 2;
+    workerOne.on('message', (msg) => {
+        console.log(`main: received from worker one: ${msg}`);
+        console.log(`main: uint8Array content: ${uint8Array}`);
+    });
 
-    Atomics.add(uint8Array, 0, 5);
+    workerOne.on('exit', () => console.log('worker one has finished'));
 
-    console.log(Atomics.load(uint8Array, 0));
+    // uint8Array[0] = 2;
+
+    // Atomics.add(uint8Array, 0, 5);
+
+    // console.log(Atomics.load(uint8Array, 0));
 }
-
 
 
 
