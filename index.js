@@ -30,6 +30,8 @@ if (isMainThread) {
     // Atomics.add(uint8Array, 0, 5);
 
     // console.log(Atomics.load(uint8Array, 0));
+} else {
+    const uint8Array = new Uint8Array(workerData);
 }
 
 
