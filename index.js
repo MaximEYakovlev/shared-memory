@@ -25,7 +25,13 @@ if (isMainThread) {
         console.log(`main: uint8Array content: ${uint8Array}`);
     });
 
+    workerTwo.on('message', (msg) => {
+        console.log(`main: received from worker two: ${msg}`);
+        console.log(`main: uint8Array content: ${uint8Array}`);
+    });
+
     workerOne.on('exit', () => console.log('worker one has finished'));
+    workerTwo.on('exit', () => console.log('worker two has finished'));
 
     // console.log(Atomics.load(uint8Array, 0));
 } else {
