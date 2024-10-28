@@ -15,6 +15,8 @@ if (isMainThread) {
 
     const uint8Array = new Uint8Array(buffer);
 
+    console.log('main: initializing SharedArrayBuffer...');
+
     const workerOne = createWorker(buffer);
     const workerTwo = createWorker(buffer);
 
@@ -25,13 +27,20 @@ if (isMainThread) {
 
     workerOne.on('exit', () => console.log('worker one has finished'));
 
-    // uint8Array[0] = 2;
-
-    // Atomics.add(uint8Array, 0, 5);
-
     // console.log(Atomics.load(uint8Array, 0));
 } else {
     const uint8Array = new Uint8Array(workerData);
+    const workerId = Math.random();
+
+    console.log(`worker: starting task in worker ${workerId}`);
+
+    uint8Array[0] = 2;
+
+    for (let i = 0; i < uint8Array.length; i++) {
+        Atomics.add(uint8Array, i, 1);
+    }
+
+    parentPort.postMessage(`worker ${workerId} has updated SharedArrayBuffer`);
 }
 
 
